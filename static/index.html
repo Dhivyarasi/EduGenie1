@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f8f8f5" />
+    <meta name="description" content="A calmer way to understand, practise and explore new subjects." />
+    <title>EduGenie · Your study desk</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Main navigation">
+        <a class="brand" href="#learn" data-route="learn" aria-label="EduGenie home">
+          <span class="brand-mark" aria-hidden="true">e</span>
+          <span class="brand-word">edu<span>genie</span></span>
+        </a>
+
+        <p class="sidebar-label">YOUR SPACE</p>
+        <nav class="side-nav">
+          <button class="nav-link is-active" type="button" data-route="learn">
+            <i data-lucide="panels-top-left" aria-hidden="true"></i><span>Study desk</span>
+          </button>
+          <button class="nav-link" type="button" data-route="quiz">
+            <i data-lucide="list-checks" aria-hidden="true"></i><span>Quiz lab</span>
+          </button>
+          <button class="nav-link" type="button" data-route="path">
+            <i data-lucide="route" aria-hidden="true"></i><span>Learning paths</span>
+          </button>
+          <button class="nav-link" type="button" data-route="saved">
+            <i data-lucide="bookmark" aria-hidden="true"></i><span>Saved notes</span>
+            <span class="saved-count" id="savedCount" hidden>0</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="offline-card">
+            <span class="status-dot" id="statusDot"></span>
+            <div><span class="offline-label" id="providerLabel">Local study mode</span><span class="offline-caption" id="providerCaption">Answers stay on this device</span></div>
+          </div>
+          <a class="sidebar-help" href="https://github.com/" target="_blank" rel="noreferrer">
+            <i data-lucide="circle-help" aria-hidden="true"></i><span>About EduGenie</span><i data-lucide="arrow-up-right" aria-hidden="true"></i>
+          </a>
+        </div>
+      </aside>
+
+      <main class="main-area">
+        <header class="topbar">
+          <div class="crumb"><span class="crumb-root">MY LEARNING</span><i data-lucide="chevron-right" aria-hidden="true"></i><span id="crumbCurrent">Study desk</span></div>
+          <div class="topbar-right">
+            <span class="today-label" id="todayLabel"></span>
+            <span class="avatar" aria-label="Student profile">S</span>
+          </div>
+        </header>
+
+        <div class="workspace" id="workspaceView">
+          <section class="welcome-block" aria-labelledby="pageTitle">
+            <span class="eyebrow"><span class="eyebrow-line"></span> A LITTLE CURIOSITY GOES A LONG WAY</span>
+            <h1 id="pageTitle">Make the complicated<br /><em>feel close.</em></h1>
+            <p class="welcome-copy" id="pageCopy">One good question can open up a whole new way of seeing things. What’s on your mind?</p>
+          </section>
+
+          <section class="composer" aria-label="Ask your study assistant">
+            <div class="mode-bar" role="group" aria-label="Choose a study tool">
+              <button class="mode-button is-selected" type="button" data-mode="answer"><i data-lucide="messages-square" aria-hidden="true"></i><span>Ask</span></button>
+              <button class="mode-button" type="button" data-mode="explain"><i data-lucide="lightbulb" aria-hidden="true"></i><span>Explain</span></button>
+              <button class="mode-button" type="button" data-mode="quiz"><i data-lucide="list-checks" aria-hidden="true"></i><span>Quiz</span></button>
+              <button class="mode-button" type="button" data-mode="summarize"><i data-lucide="align-left" aria-hidden="true"></i><span>Summarize</span></button>
+              <button class="mode-button" type="button" data-mode="path"><i data-lucide="route" aria-hidden="true"></i><span>Study path</span></button>
+              <button class="mode-button" type="button" data-mode="recommend"><i data-lucide="compass" aria-hidden="true"></i><span>Next up</span></button>
+            </div>
+            <form id="studyForm">
+              <label class="sr-only" for="studyPrompt">What would you like to learn?</label>
+              <textarea id="studyPrompt" name="prompt" rows="3" maxlength="12000" required placeholder="Ask anything — “Which is the largest ocean?”"></textarea>
+              <div class="composer-footer">
+                <span class="composer-hint" id="composerHint"><i data-lucide="sparkles" aria-hidden="true"></i> Thoughtful answers, one question at a time</span>
+                <button class="submit-button" id="submitButton" type="submit"><span id="submitLabel">Ask EduGenie</span><i data-lucide="arrow-up-right" aria-hidden="true"></i></button>
+              </div>
+            </form>
+          </section>
+
+          <section class="answer-panel" id="answerPanel" aria-live="polite" hidden>
+            <div class="answer-heading"><span class="answer-avatar" aria-hidden="true">e</span><div><span class="answer-byline">EDUGENIE</span><span class="answer-time" id="answerMeta"></span></div><button class="icon-button save-button" id="saveButton" type="button" title="Save this response" aria-label="Save this response"><i data-lucide="bookmark-plus" aria-hidden="true"></i></button></div>
+            <div class="answer-content" id="answerContent"></div>
+          </section>
+
+          <section class="quick-starts" id="quickStarts" aria-label="Try a study prompt">
+            <div class="section-heading"><span>NEED A PLACE TO START?</span><i data-lucide="corner-down-right" aria-hidden="true"></i></div>
+            <div class="prompt-list">
+              <button class="prompt-chip" type="button" data-fill="Which is the largest ocean, and how big is it?">Find Earth's largest ocean<i data-lucide="arrow-up-right" aria-hidden="true"></i></button>
+              <button class="prompt-chip" type="button" data-fill="Explain the Pythagorean theorem with a simple example.">Make triangles make sense<i data-lucide="arrow-up-right" aria-hidden="true"></i></button>
+              <button class="prompt-chip" type="button" data-fill="Create a beginner-to-advanced SQL learning path with an eight-week timeline.">Build me a SQL learning path<i data-lucide="arrow-up-right" aria-hidden="true"></i></button>
+            </div>
+          </section>
+        </div>
+
+        <section class="saved-view" id="savedView" hidden>
+          <span class="eyebrow"><span class="eyebrow-line"></span> YOUR STUDY NOTES</span>
+          <h1 class="saved-title">A little knowledge,<br /><em>kept close.</em></h1>
+          <p class="welcome-copy">Responses you save live here, only in this browser.</p>
+          <div class="saved-list" id="savedList"></div>
+        </section>
+
+        <footer class="page-footer"><span>Make room for the next question.</span><span id="footerProvider">EDUGENIE · LOCAL STUDY MODE</span></footer>
+      </main>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
